@@ -510,6 +510,27 @@ case 'leave':
                  }
             break;
 
+            case 'progs security':
+                 if (!isSecretPasswordEntered) {
+                    appendOutput("<br /><p>Access denied</p>");
+                } else {
+            appendOutput(`
+                <br />
+                <p>[SECURITY PROTOCOL BYPASSED]</p>
+                <br />
+                <p>[SECURITY VULNERABILITY]</p>
+                <br />
+                <p>[OVERWRITE COMPLETE]</p>
+                <br />
+                <p>So glad to see you made it this far! Already working on breaching whats coming next, but im not sure how long its going to take.</p>
+                <br />
+                <p>I'll leave this here for you: w k d g r t j h w h k q l w v r q m t p w v t i s r</p>
+                <br />
+                <p>To target specific Information, please follow this format - Example: 'info target'</p>  
+                <br />
+            `);
+            break;
+
             
       // List of "info" commands within the command prompt 
             

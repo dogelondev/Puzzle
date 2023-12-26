@@ -85,27 +85,23 @@ function handleCommand(command) {
             return; 
         }
 
-        
         const requiredPassword = commandConfig[command.toLowerCase()];
 
-        
         switch (command.toLowerCase()) {
-            
-        }
-    });
-}
-                  
-        default:
-            appendOutput(`
-            <br />
-            <p>Command not recognized: ${command}</p>
-            <br />
-            <p>Please be sure you are using the correct targeting, for example:</p>
-            <br />
-            <p>info staff/gumbert</p>
-            <br />
-            `);
-            break;
+            // [Add your other case statements here]
+
+            // Add other cases above this line
+            default:
+                appendOutput(`
+                <br />
+                <p>Command not recognized: ${command}</p>
+                <br />
+                <p>Please be sure you are using the correct targeting, for example:</p>
+                <br />
+                <p>info staff/gumbert</p>
+                <br />
+                `);
+                break;
             
         case 'help':
             appendOutput(`

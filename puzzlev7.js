@@ -88,22 +88,8 @@ function handleCommand(command) {
         const requiredPassword = commandConfig[command.toLowerCase()];
 
         switch (command.toLowerCase()) {
-            // [Add your other case statements here]
-
-            // Add other cases above this line
-            default:
-                appendOutput(`
-                <br />
-                <p>Command not recognized: ${command}</p>
-                <br />
-                <p>Please be sure you are using the correct targeting, for example:</p>
-                <br />
-                <p>info staff/gumbert</p>
-                <br />
-                `);
-                break;
             
-        case 'help':
+                 case 'help':
             appendOutput(`
                 <br />
                 <p>Welcome to the Galactic Prison Terminal Interface! To navigate through the system and access various programs, please use the following commands:</p>
@@ -1369,14 +1355,22 @@ Love, Sister Bwerwebhert
             `);
                 }
             break;
-
-            
+                
+            default:
+                appendOutput(`
+                <br />
+                <p>Command not recognized: ${command}</p>
+                <br />
+                <p>Please be sure you are using the correct targeting, for example:</p>
+                <br />
+                <p>info staff/gumbert</p>
+                <br />
+                `);
+                break;
         }
-    }
+    });
 }
-
-
-
+            
 function appendOutput(content) {
    
     const newOutput = document.createElement('div');

@@ -1,16 +1,24 @@
+async function sha256(message) {
+    const msgBuffer = new TextEncoder().encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+}
+
 const commandInput = document.getElementById('command-input');
 const output = document.querySelector('.output');
 const originalBackgroundImage = getComputedStyle(document.body).backgroundImage;
-let isPasswordEntered = false; // Initialize the password check variable
-let isKeyHeld = false; // Flag to track if a key is held down
-let audioTimer = null; // Initialize a timer variable
-let audioPlaying = false; // Flag to track if audio is currently playing
+let isPasswordEntered = false;
+let isKeyHeld = false;
+let audioTimer = null;
+let audioPlaying = false;
 let isSecretPasswordEntered = false;
 let listenCommandCount = 0;
 let coinResult = null;
 
-const unlockPassword = "thedayirest";
-const secretPassword = "codebreaker01101100";
+const unlockPassword = 'ee9393b0d6ce7588e7cfe132a774762b337b3f6bf209414031353005e5d0c06e';
+const secretPassword = 'ce1812019a81ee4063d53b817e8a667d47d7772e8be2c4ca9284360a65a86aaa';
 const commandConfig = {
     'progs admin_dir/segment_two': unlockPassword,
     'progs admin_dir/segment_three': secretPassword,
@@ -31,20 +39,17 @@ const randomMessages = [
     "Relationships flourish with patience and understanding; nurture them.",
     "You are trespassing somewhere you do not belong; choose your actions wisely.",
     "Beware of deceitful intentions; not everyone has your best interests at heart.",
-    // Add more random messages as needed
 ];
 
-// Function to display a welcome message
 function displayWelcomeMessage() {
     const welcomeMessage = "PROSPECT EDEN ADMINISTRATIVE MENU\n\nPE-T1 Data Terminal Osiris. Stardate 2552.\nInitializing quantum processors...... [OK]\nMainframe connection established...... [OK]\nROM BIOS LOADED v9.2 - rev 7\nRAM CRC check: (000000h)\nDrive - Serial: 4204694 - DETECTED\nVirtual Firewall Initiated...... [OK]\n------------------\nINPUT SYSTEM - VIRTUAL\nBooting.\nLoading neural interface...... [OK]\nInitializing self-repair algorithms...... [OK]\nChecking system integrity...... [OK]\nDecrypting hidden archives...... [COMPLETE]\nPorts SECURE: [TAPS: 00]\nEncryption:[ENABLED-204umn1]\nVirus Scan - '.....CHECKING…..'\nScanning for rogue AI...... [0 AI DETECTED]\nAnalyzing residual data...... [COMPLETE]\nAnalyzing encrypted logs...... [COMPLETE]\n------------------\nBOOT: ProspectEdenAdmin.exe\nRunning background diagnostics...... [OK]\nRunning authentication protocols...... [OK]\nBOOT SUCCESSFUL.\nWelcome to the Darknet...\nAccessing Prospect Eden's Administrative Interface...\nDecrypting shadow access key...... [SUCCESS]\nWELCOME.\nWelcome USER to Prospect Eden's Administrative Menu.\nInitiating secure tunneling to mainframe...... [SUCCESS]\nType 'help' for assistance in traversing the abyss...\n";
     const messageLines = welcomeMessage.split('\n');
     
     messageLines.forEach(line => {
-        appendOutput(line); // No need to create a new div for each line
+        appendOutput(line);
     });
 }
 
-// Call the function to display the welcome message when the page loads
 window.addEventListener('load', displayWelcomeMessage);
 
 commandInput.addEventListener('keydown', function(event) {
@@ -55,34 +60,41 @@ commandInput.addEventListener('keydown', function(event) {
         const command = commandInput.value;
         commandInput.value = '';
 
-        // Display the entered command in the output area
         appendOutput(`> ${command}`);
 
-        // Handle the command and provide a response here
         handleCommand(command);
     }
 });
 
 function playAudio() {
-    const audio = new Audio('https://www.fesliyanstudios.com/play-mp3/649'); // Replace with your audio file URL
-    audio.play(); // Play the audio
+    const audio = new Audio('https://www.fesliyanstudios.com/play-mp3/649');
+    audio.play(); 
 }
-const playButton = document.getElementById('play-button'); // Add an HTML button with id="play-button"
-playButton.addEventListener('click', playAudio); // Attach a click event listener to the play button
+const playButton = document.getElementById('play-button'); 
+playButton.addEventListener('click', playAudio); 
 
 function handleCommand(command) {
-    // Check if the entered command requires a password
-    const requiredPassword = commandConfig[command.toLowerCase()];
+    sha256(command).then(hash => {
+        if (hash === unlockPassword) {
+            isPasswordEntered = true;
+            appendOutput("<br /><p>Password accepted. You can now access segment_two...</p><br />");
+            return;  
+        } else if (hash === secretPassword) {
+            isSecretPasswordEntered = true;
+            appendOutput("<br /><p>Password accepted. You can now access segment_three...</p><br />");
+            return; 
+        }
 
-    if (requiredPassword === unlockPassword && !isPasswordEntered) {
-        appendOutput("<br /><p>Access denied. Please enter the correct password to view segment.</p><br />");
-    } else if (requiredPassword === secretPassword && !isSecretPasswordEntered) {
-        appendOutput("<br /><p>Access denied. Please enter the correct password to view segment.</p><br />");
-    } else {
+        
+        const requiredPassword = commandConfig[command.toLowerCase()];
+
+        
         switch (command.toLowerCase()) {
             
-    // List of Basic commands within the command prompt
-            
+        }
+    });
+}
+                  
         default:
             appendOutput(`
             <br />
@@ -159,7 +171,7 @@ function handleCommand(command) {
                 <br />
                 <p>YOU DREAM OF VISAGES OF GOING TO THE MOON, WANTING FOR NOTHING.</p>
                 <br />
-                <p>https://puzzle-site.webflow.io/moon</p>
+                <p>https://puzzle.dogelonmars.com/moon</p>
                 <br />
             `);
             break;
@@ -169,7 +181,7 @@ function handleCommand(command) {
                 <br />
                 <p>Dogelon to the mars?</p>
                 <br />
-                <p>https://puzzle-site.webflow.io/to-the-mars</p>
+                <p>https://puzzle.dogelonmars.com/tothemars</p>
                 <br />
             `);
             break;
@@ -193,39 +205,10 @@ function handleCommand(command) {
                 case 'admin':
             appendOutput(`
                 <br />
-                <p>                                                                                
-                                                                               
-                                                                                
-                                                   .,/*/*///#((**                
-                                              ,//%       (*,% ./,*//**          
-                                           *&%    %@@*#//***/((*#, .*,#/,      
-                                        *//   (@&(***           /*(#  */,*,     
-                             /(      *//,  (@(/*,                  ,*# *,,/,    
-                          ,(((((//,(//   @@/*,                       *#.*@//,  
-                        ((((//////////@@(**                           &*/.#@*   
-                     /////////*/********@.                           ///% @@* 
-                  ,//*/********************#*                       %//  @/*    
-                //*********admin***********///,*                  ///   @(*    
-             ///*******************************/***,           /&/%  /@(*,     
-          *//***********************************,,,..,/     .///   @@/*,       
-        ///******,*,,************************,,,,,.......*///.  %@#**           
-     (//********,,,,,,*********************,,,,,...........  (@@/*.            
-   ///************,**,******************,,,,,,,.............                      
-   *,,,***,,,,,,**********************,,,,,,.,............ .  ..#*              
-   .***,,, ,,,,*********************,,,,,,.................../****              
-      */*,,,,,*******************,,,,,,....................(*,,*                 
-         ****,,**.*****/******,,,,,,,...................%**,,                   
-           .***##/*,********,,,,,,................ ..,**,*,                     
-              ,/*(/@@(/**,,,,,.....................&,**,                        
-                 ./&*&&#**/.....................*****,                          
-                     (//*%***/................&****                             
-                        ********...........(****.                               
-                           **//@///......&****                                  
-                               */////*#/***                                      
-                                  .////**                                        
-                                                                                
-                                                                                
-</p>
+                <p> It's not going to be that simple... </p>
+                <p> It's not going to be that simple... </p>
+                <p> I̵t̷s̸ ̶n̵o̴t̷ ̵g̷o̵i̴n̶g̷ ̴t̴o̴ ̸b̴e̷ ̷t̴h̴a̶t̸ ̷s̸i̵m̷p̴l̸e̷.̸.̴.̶ </p>
+                <p> Ȋ̸̭ẗ̸͇́s̴͖̀ ̴̛̣n̶̝͗o̴̲̕ẗ̶͚́ ̸͔̀g̷̥͛o̴͈̽ĭ̶̘ň̴̲ĝ̷͓ ̶̳͆t̶̞̒ǒ̶͚ ̸͓̃b̸̤̋ȩ̷̓ ̶̖̎t̴̳̄h̶̫̅a̶̯͐t̵̮̒ ̵͓̉s̸͓̄i̵̦͂m̴̪̂p̷̭͠l̴̈́͜e̴̦̕.̵̹͑.̷͔̚.̷̘̆ </p>
                 <br />
             `);
             break;
@@ -235,12 +218,11 @@ function handleCommand(command) {
                 <br />
                 <p>IF YOU ARE READING THIS, THEN MY MESSAGES ARE WORKING.</p>
                 <br />
-                <p>https://puzzle-site.webflow.io/if-you-are-reading-this</p>
+                <p>https://puzzle.dogelonmars.com/ifyouarereadingthis</p>
                 <br />
             `);
             break;
 
-      // List of "progs" commands within the command prompt
             
             case 'progs':
             appendOutput(`
@@ -340,10 +322,10 @@ function handleCommand(command) {
 
 case 'flip':
     if (coinResult === null) {
-        // Flip the coin and store the result.
+        
         coinResult = Math.random() < 0.5 ? 'HEADS' : 'TAILS';
     } else {
-        // If coin has already been flipped, reset it and flip again.
+        
         coinResult = Math.random() < 0.5 ? 'HEADS' : 'TAILS';
     }
     appendOutput(`
@@ -359,7 +341,6 @@ case 'flip':
     `);
     break;
 
-// Keep the 'examine' and 'leave' cases as they are
 
 case 'examine':
     if (coinResult === null) {
@@ -449,16 +430,6 @@ case 'leave':
                 }
                 break;
             
-            case 'thedayirest': // Replace "yourpassword" with the actual password
-                isPasswordEntered = true; // Set the password as entered
-                appendOutput("<br /><p>Password accepted. You can now access segment_two...</p><br />");
-                break;
-
-            case 'codebreaker01101100':
-                isSecretPasswordEntered = true; // Set the password as entered
-                appendOutput("<br /><p>Password accepted. You can now access segment_three...</p><br />");
-                break;
-
             case 'progs fortune':
                 if (!isPasswordEntered) {
                     appendOutput("<br /><p>Access denied</p>");
@@ -531,9 +502,7 @@ case 'leave':
         `);
     }
     break;
-       
-      // List of "info" commands within the command prompt 
-            
+                
         case 'info':
             appendOutput(`
                 <br />
@@ -641,35 +610,34 @@ case 'leave':
                 } else {
             appendOutput(`
                 <br />
-                <p>@@@@@@@@@@@@@@@@&&&&&&&&&&&&%%%%%%%###########((((########%%%%%%%&&&&&&&&&&&@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@&&&&&&&&&&&&%%%%%%%%#########(((,,,,,((((((########%%%%%%%%&&&&&&&&&&&@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@&&&&&&&&&&&&&%%%%%%%%##%.,,, . ..,.#####%%%%%%%%&&&&&&&&&&&&@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@&&&&&&&&&&&&&&%%%%%%,*. ..,....*.. ., .,,%%%%%%%%&&&&&&&&&&&&@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@&&&&&&&&&&&&&&&%&**/ ,(&%&%%%/,..,,/(/(((/*. .,,*%%%&&&&&&&&&&&&@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@&&&&&&&&&&&&&&&./*,....#**,**,*((,,*,,/(.,,.,,*,.. ,*,%&&&&&&&&&&&&@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@&&&&&&&&&&&&&(#(*..,##.(.#(#/(#%%%*(*(#(((*(*/./.*,. ,,*/&&&&&&&&&&&@@@@@@@@@@@@@@@@
-@@@I@@@@@@@@@@@@&&&&&##&&&(***/,.#./#(#(#/##SEE###(.#((((((//(((/. .****#&&&#&&&@@@@@@YOU@@@@@@@@@@
-@@@@@@@@@@@@@@@@@&&&##&&&%**(*...,,/###%%###%%%&#((,/%##%((##((#/, ,,***//&&&&#@&@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@&&/#&&&&//(/%(,,(/(((#####%#%#%%##(#%%#((#(#(#/*.,/****/(/(&&&&#&@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@(#@&&&#%(##%###/(#(#(##&&##%%%&##,%#####%#(#//. ..(*((((,#(&&&&(&@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@&#&&@&%/#(&###%########/((%%&%&&&%*%&%%#%(//(,(..,/((*##/,#*(&@@%/@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@&#@@@&%(//#&((%%%%%######/%%#%%%#####%%##/#(/// /(((*&**(*,/(#@@@%/@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@##@@@%#%//(%//(##&%#######(%#%##@##(@##(#&#((/.,,*////*,,(/,,(((@@@%*@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@(###@@/%#(((****/#(&%#######/&&%#&%#,&##%&#((//.*/(%/.,....,*/(#*@@##%/@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@%%@%/#&%&@#&(%&&@/(##%#(#####(&%&%###%%%%#(/(/,/(/**,,%&&%*&(@%%&*(%@%(@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@&%#@&&&@&@(##(&@@@@%@(##&######/&&&%%/&&&%#((/*(#/*,&@@@@&&***(@%@&&@@%%@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@&&%##(/,,%#&/&&@@@@.%@(%%####%#/&&%&#&&&##((*##/*&#@@@@@%#,%((. ,/(#&&@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@%&@@&@##///(&@@&&&&%%&(#%###%*&&%%(&&#%##(#(/%%.#%&@@@%*,,./#&&@@&%@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@&/@@&&%&&(///%&&%.*,*/(#%#%#%%&#%%%%%%&##(%(%#(**.,/%%(/.,,*(#%@&@@(&@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@#(@@@@&((///(%#(*,...*(%%&%%%%%&&%&&&%%#%@##/, ..,*##%*,,,*/&@@@@((@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@(/@@@(&@&(//(%#(/(//(((&@&%%%%@&%%@%%(#&&&#/*////(#(,,,*&&%(@@@*(@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@%#%&@&&&%(((%%%%%%%%#@@@@@&&&&&&&%%@@@@&#(%%#%%#(,*/%@&&&%#(%@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@&@%&&@&###%%&&@@@@@@@@%%#%%#,#*@@@@@@@&%#////#@@%&%@&@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@&@@@&@%@#%%%%%%%%%%%%%%@%%(@#(#(((##%%%&%#/@%@&@@@%@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@#&@@@&@@@&@#%@@@&%%%@%#%@%%/&#,#&#%%&@@&(/@&%@@@@@@&/@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@%@@@@@/%&&@@##@@%&#%%%#%%(#(*/(((#(&&(/@&@%//@@@@@/@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-</p>
+                <p>@@@@@&&&&&&&&&&&&%%%%%%%###########((((########%%%%%%%&&&&&&&&&&&@@@@@@@@@@@@@@</p>
+                <p>@@@@@&&&&&&&&&&&&%%%%%%%%#########(((,,,,,((((((########%%%%%%%%&&&&&&&&&&&@@@@</p>
+                <p>@@@@@&&&&&&&&&&&&&%%%%%%%%##%.,,, . ..,.#####%%%%%%%%&&&&&&&&&&&&@@@@@@@@@@@@@@</p>
+                <p>@@@@&&&&&&&&&&&&&&%%%%%%,*. ..,....*.. ., .,,%%%%%%%%&&&&&&&&&&&&@@@@@@@@@@@@@@</p>
+                <p>@@@@&&&&&&&&&&&&&&&%&**/ ,(&%&%%%/,..,,/(/(((/*. .,,*%%%&&&&&&&&&&&&@@@@@@@@@@@</p>
+                <p>@@@@&&&&&&&&&&&&&&&./*,....#**,**,*((,,*,,/(.,,.,,*,.. ,*,%&&&&&&&&&&&&@@@@@@@@</p>
+                <p>@@@@&&&&&&&&&&&&&(#(*..,##.(.#(#/(#%%%*(*(#(((*(*/./.*,. ,,*/&&&&&&&&&&&@@@@@@@</p>
+                <p>@@@@I&&&&&##&&&(***/,.#./#(#(#/##SEE###(.#((((((//(((/. .****#&&&#&&&@@@@@@YOU@</p>
+                <p>@@@@@@&&&##&&&%**(*...,,/###%%###%%%&#((,/%##%((##((#/, ,,***//&&&&#@&@@@@@@@@@</p>
+                <p>@@@@@@&&/#&&&&//(/%(,,(/(((#####%#%#%%##(#%%#((#(#(#/*.,/****/(/(&&&&#&@@@@@@@@</p>
+                <p>@@@@@@@(#@&&&#%(##%###/(#(#(##&&##%%%&##,%#####%#(#//. ..(*((((,#(&&&&(&@@@@@@@</p>
+                <p>@@@@@@&#&&@&%/#(&###%########/((%%&%&&&%*%&%%#%(//(,(..,/((*##/,#*(&@@%/@@@@@@@</p>
+                <p>@@@@@&#@@@&%(//#&((%%%%%######/%%#%%%#####%%##/#(/// /(((*&**(*,/(#@@@%/@@@@@@@</p>
+                <p>@@@@@##@@@%#%//(%//(##&%#######(%#%##@##(@##(#&#((/.,,*////*,,(/,,(((@@@%*@@@@@</p>
+                <p>@@@@(###@@/%#(((****/#(&%#######/&&%#&%#,&##%&#((//.*/(%/.,....,*/(#*@@##%/@@@@</p>
+                <p>@@@@%%@%/#&%&@#&(%&&@/(##%#(#####(&%&%###%%%%#(/(/,/(/**,,%&&%*&(@%%&*(%@%(@@@@</p>
+                <p>@@@&%#@&&&@&@(##(&@@@@%@(##&######/&&&%%/&&&%#((/*(#/*,&@@@@&&***(@%@&&@@%%@@@@</p>
+                <p>@@@@&&%##(/,,%#&/&&@@@@.%@(%%####%#/&&%&#&&&##((*##/*&#@@@@@%#,%((. ,/(#&&@@@@@</p>
+                <p>@@@@@@%&@@&@##///(&@@&&&&%%&(#%###%*&&%%(&&#%##(#(/%%.#%&@@@%*,,./#&&@@&%@@@@@@</p>
+                <p>@@@@@&/@@&&%&&(///%&&%.*,*/(#%#%#%%&#%%%%%%&##(%(%#(**.,/%%(/.,,*(#%@&@@(&@@@@@</p>
+                <p>@@@@@@#(@@@@&((///(%#(*,...*(%%&%%%%%&&%&&&%%#%@##/, ..,*##%*,,,*/&@@@@((@@@@@@</p>
+                <p>@@@@@@@(/@@@(&@&(//(%#(/(//(((&@&%%%%@&%%@%%(#&&&#/*////(#(,,,*&&%(@@@*(@@@@@@@</p>
+                <p>@@@@@@@@@%#%&@&&&%(((%%%%%%%%#@@@@@&&&&&&&%%@@@@&#(%%#%%#(,*/%@&&&%#(%@@@@@@@@@</p>
+                <p>@@@@@@@@@@@@@&@%&&@&###%%&&@@@@@@@@%%#%%#,#*@@@@@@@&%#////#@@%&%@&@@@@@@@@@@@@@</p>
+                <p>@@@@@@@@@@@@@@&@@@&@%@#%%%%%%%%%%%%%%@%%(@#(#(((##%%%&%#/@%@&@@@%@@@@@@@@@@@@@@</p>
+                <p>@@@@@@@@@@@@@#&@@@&@@@&@#%@@@&%%%@%#%@%%/&#,#&#%%&@@&(/@&%@@@@@@&/@@@@@@@@@@@@@</p>
+                <p>@@@@@@@@@@@@@@%@@@@@/%&&@@##@@%&#%%%#%%(#(*/(((#(&&(/@&@%//@@@@@/@@@@@@@@@@@@@@</p>
+                <p>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</p>
                 <br />
             `);
                 }
@@ -1414,24 +1382,24 @@ Love, Sister Bwerwebhert
 
 
 function appendOutput(content) {
-    // Create a div for the content
+   
     const newOutput = document.createElement('div');
 
     if (typeof content === 'string') {
-        // Use innerHTML to render HTML tags
+        
         newOutput.innerHTML = content;
     } else {
-        // If the content is an HTML element, append it directly
+       
         newOutput.appendChild(content);
     }
 
-    // Add a line break for spacing
+    
     const lineBreak = document.createElement('br');
     newOutput.appendChild(lineBreak);
 
-    // Insert the content before the existing content
+    
     output.insertBefore(newOutput, output.firstChild);
 
-    // Scroll to the bottom of the output container
+    
     output.scrollTop = output.scrollHeight;
 }

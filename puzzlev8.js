@@ -213,7 +213,7 @@ function handleCommand(command) {
                 <br />
                 <ul>
                     <li>access: View security feeds</li>
-                    <li>coinflip.exe: Test your fate with the invisible hand of chance...</li>
+                    <li>coinflip: Test your fate with the invisible hand of chance...</li>
                     <li>admin_dir: Access different directorys(PASSWORD-PROTECTED)</li>
                 </ul>
                 <br />
